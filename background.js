@@ -23,7 +23,21 @@ export class Background {
         this.game = game
         this.width = 1667
         this.height = 500
-        this.layer5image = layer5
+        this.layer5image = document.getElementById('layer5')
+        this.layer1 = new Layer(this.game, this.width, this.height, 1, this.layer5image)
+        this.backgroundLayers = [this.layer1]
+
+    }
+    update(){
+        this.backgroundLayers.forEach(layer => {
+            layer.update()
+        })
+
+    }
+    draw(context){
+        this.backgroundLayers.forEach(layer => {
+            layer.draw(context)
+        })
 
     }
 }
