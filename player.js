@@ -12,6 +12,7 @@ export class Player {
         this.image = document.getElementById('player')
         this.frameX = 0
         this.frameY = 0
+        this.maxFrame = 5
         this.speed = 0
         this.maxSpeed = 10
         this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)]
@@ -28,10 +29,12 @@ export class Player {
         if (this.x < 0) this.x = 0
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width
         // vertical movement
-        // if (input.includes('ArrowUp') && this.onGround()) this.vy -= 30
         this.y += this.vy
         if (!this.onGround()) this.vy += this.weight
         else this.vy = 0
+        // sprite animation
+        if (this.frameX < this.maxFrame) this.frameX++
+        else this.frameX = 0
     }
     draw(context){
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
