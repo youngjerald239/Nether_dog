@@ -13,13 +13,16 @@ export class Player {
         this.frameX = 0
         this.frameY = 0
         this.maxFrame = 5
+        this.fps = 20
+        this.frameInterval = 1000/this.fps
+        this.frameTimer = 0
         this.speed = 0
         this.maxSpeed = 10
         this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)]
         this.currentState = this.states[0]
         this.currentState.enter()
     }
-    update(input){
+    update(input, deltaTime){
         this.currentState.handleInput(input)
         // horizontal movement
         this.x += this.speed
@@ -33,14 +36,19 @@ export class Player {
         if (!this.onGround()) this.vy += this.weight
         else this.vy = 0
         // sprite animation
-        if (this.frameX < this.maxFrame) this.frameX++
-        else this.frameX = 0
-    }
+        if (this.frameTimer > this.frameInterval) {
+            this.frameTimer = 0
+            if (this.frameX < this.maxFrame) this.frameX++
+            else this.frameX = 0
+        } else {
+        this.frameTimer += deltaTime
+        }
+    } 
     draw(context){
         context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
     }
     onGround(){
-        return this.y >= this.game.height - this.height
+        return this.y >= this.game.height - this.height 
     }
     setState(state){
         this.currentState = this.states[state]
