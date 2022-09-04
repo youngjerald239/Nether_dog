@@ -21,7 +21,12 @@ export class Dust extends Particle {
         this.speedY = Math.random()
         this.color = 'black'
     }
-    draw(context)
+    draw(context){
+        context.beginPath()
+        context.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+        context.fillStyle = this.color
+        context.fill()
+    }
 }
 
 export class Splash extends Particle {
